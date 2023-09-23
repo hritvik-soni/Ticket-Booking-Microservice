@@ -1,18 +1,21 @@
 package com.learning.userdetails.service;
 
-import com.learning.userdetails.model.User;
-import com.learning.userdetails.model.dto.BusOppRequestOutput;
-import com.learning.userdetails.model.dto.UserDetailsForTicket;
-import com.learning.userdetails.model.dto.UserRequestInput;
-import com.learning.userdetails.model.dto.UserRequestOutput;
+import com.learning.userdetails.model.Users;
+import com.learning.userdetails.model.dto.*;
 import com.learning.userdetails.repository.IUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService {
     @Autowired
     IUserRepo userRepo;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public String createUser(UserRequestInput userRequestInput) {
         String email = userRequestInput.getUserEmail();
@@ -21,61 +24,120 @@ public class UserService {
         if(email.equals("@bus.com")){
             role = "ROLE_BUS";
         }
-        User newUser = User.builder()
+        Users newUsers = Users.builder()
                 .userName(userRequestInput.getUserName())
                 .userAge(userRequestInput.getUserAge())
                 .userEmail(userRequestInput.getUserEmail())
-                .userPassword(userRequestInput.getUserPassword())
+                .userPassword(passwordEncoder.encode(userRequestInput.getUserPassword()))
                 .userCity(userRequestInput.getUserCity())
                 .userMobileNumber(userRequestInput.getUserMobileNumber())
                 .gender(userRequestInput.getGender())
                 .roles(role)
                 .build();
-        User savedUser = userRepo.save(newUser);
+        Users savedUsers = userRepo.save(newUsers);
         return "user saved successfully!!!!";
     }
 
     public UserRequestOutput getUserInfo(String email) {
-        User currentUser = userRepo.findByUserEmail(email);
-        if(currentUser==null){
+        Users currentUsers = userRepo.findByUserEmail(email);
+        if(currentUsers ==null){
             return null;
         }
         return UserRequestOutput.builder()
-                .userName(currentUser.getUserName())
-                .userAge(currentUser.getUserAge())
-                .userEmail(currentUser.getUserEmail())
-                .userCity(currentUser.getUserCity())
-                .userMobileNumber(currentUser.getUserMobileNumber())
-                .gender(currentUser.getGender())
-                .roles(currentUser.getRoles())
+                .userName(currentUsers.getUserName())
+                .userAge(currentUsers.getUserAge())
+                .userEmail(currentUsers.getUserEmail())
+                .userCity(currentUsers.getUserCity())
+                .userMobileNumber(currentUsers.getUserMobileNumber())
+                .gender(currentUsers.getGender())
+                .roles(currentUsers.getRoles())
                 .build();
     }
 
-    public BusOppRequestOutput getBusUserInfo(String email) {
-        User currentUser = userRepo.findByUserEmail(email);
-        if(currentUser==null){
+    public BusOppRequestOutput getBusUserInfo(String email, String userPassword) {
+        boolean isVerified = getUserIsVerified(email, userPassword);
+        if (isVerified) {
+
+        Users currentUsers = userRepo.findByUserEmail(email);
+        if (currentUsers == null) {
             return null;
         }
         return BusOppRequestOutput.builder()
-                .busOppEmail(currentUser.getUserEmail())
-                .busOppNumber(currentUser.getUserMobileNumber())
-                .busOppName(currentUser.getUserName())
+                .busOppEmail(currentUsers.getUserEmail())
+                .busOppNumber(currentUsers.getUserMobileNumber())
+                .busOppName(currentUsers.getUserName())
                 .build();
+    }
+    return null;
     }
 
     public UserDetailsForTicket getUserInfoForTicket(String email) {
-        User currentUser = userRepo.findByUserEmail(email);
-        if(currentUser==null){
+        Users currentUsers = userRepo.findByUserEmail(email);
+        if(currentUsers ==null){
             return null;
         }
         return UserDetailsForTicket.builder()
-                .userName(currentUser.getUserName())
-                .userEmail(currentUser.getUserEmail())
-                .userMobileNumber(currentUser.getUserMobileNumber())
-                .userAge(currentUser.getUserAge())
-                .gender(currentUser.getGender())
+                .userName(currentUsers.getUserName())
+                .userEmail(currentUsers.getUserEmail())
+                .userMobileNumber(currentUsers.getUserMobileNumber())
+                .userAge(currentUsers.getUserAge())
+                .gender(currentUsers.getGender())
 
                 .build();
 
+    }
+
+    public boolean getUserIsVerified(String email, String password) {
+        Users currUsers = userRepo.findByUserEmail(email);
+        return currUsers.getUserPassword() == password;
+    }
+
+    public List<Users> getAllUsers() {
+        return userRepo.findAll();
+    }
+
+    public String removeUser(String email, String password) {
+        password = passwordEncoder.encode(password);
+        boolean isVerified = getUserIsVerified(email,password);
+        if(isVerified){
+            Users currUsers = userRepo.findByUserEmail(email);
+            userRepo.delete(currUsers);
+            return "User deleted Successfully!!!";
+        }
+        return "Invalid Credentials!!!";
+    }
+
+    public String updateUser(String email, String password, UserUpdateRequestInput updateRequestInput) {
+        password = passwordEncoder.encode(password);
+        boolean isVerified = getUserIsVerified(email,password);
+        if(isVerified){
+            Users currUsers = userRepo.findByUserEmail(email);
+            if(updateRequestInput.getUserCity()!=null){
+                currUsers.setUserCity(updateRequestInput.getUserCity());
+            }
+            if(updateRequestInput.getUserPassword()!=null){
+                currUsers.setUserPassword(passwordEncoder.encode(updateRequestInput.getUserPassword()));
+            }
+            if(updateRequestInput.getUserMobileNumber()!=null){
+                currUsers.setUserMobileNumber(updateRequestInput.getUserMobileNumber());
+            }
+            userRepo.save(currUsers);
+
+            return "User details updated Successfully!!!";
+        }
+        return "Invalid Credentials!!!";
+
+    }
+
+    public UserRequestAuthOutput getUserInfoForAuth(String email) {
+        Users currUsers = userRepo.findByUserEmail(email);
+        if (currUsers == null) {
+            return null;
+        }
+        return  UserRequestAuthOutput.builder()
+                .userEmail(currUsers.getUserEmail())
+                .userPassword(currUsers.getUserPassword())
+                .roles(currUsers.getRoles())
+                .build();
     }
 }

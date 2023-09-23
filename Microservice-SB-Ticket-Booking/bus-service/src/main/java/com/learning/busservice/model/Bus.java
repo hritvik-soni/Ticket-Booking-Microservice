@@ -1,9 +1,6 @@
 package com.learning.busservice.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +22,7 @@ public class Bus {
     private Integer busId;
     private String busCityFrom;
     private String busCityTo;
+    @Column(unique = true)
     private String busNumber;
     private String busName;
     private String busOppNumber;

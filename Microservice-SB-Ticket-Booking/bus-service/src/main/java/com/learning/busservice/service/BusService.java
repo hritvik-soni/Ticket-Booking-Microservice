@@ -4,14 +4,12 @@ import com.learning.busservice.model.Bus;
 import com.learning.busservice.model.dto.BusDetailsForTicket;
 import com.learning.busservice.model.dto.BusOppRequestInput;
 import com.learning.busservice.model.dto.BusRequestInput;
+import com.learning.busservice.model.dto.BusRequestOutput;
 import com.learning.busservice.repository.IBusRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalTime;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class BusService {
@@ -39,9 +37,43 @@ public class BusService {
         return "A new Bus service is created : "+ savedBus.getBusNumber();
     }
 
-    public String searchBus(String cityFrom, String cityTo) {
+    /**
+     *
+     * @param cityFrom
+     * @param cityTo
+     * @return
+     */
 
-        return "empty";
+    public List<BusRequestOutput> searchBus(String cityFrom, String cityTo) {
+
+
+
+        List<Bus> busList = busRepo.findAll()
+                .stream()
+                .filter(busInfo -> busInfo.getBusCityFrom().equals(cityFrom))
+                .filter(busInfo -> busInfo.getBusCityTo().equals(cityTo))
+                .toList();
+        List<BusRequestOutput> outputList = new ArrayList<>();
+
+        for (Bus currBus : busList) {
+
+            BusRequestOutput ans = BusRequestOutput.builder()
+                    .busName(currBus.getBusName())
+                    .busCityFrom(currBus.getBusCityFrom())
+                    .busCityTo(currBus.getBusCityTo())
+                    .busTicketPrice(currBus.getBusTicketPrice())
+                    .busDepartureTime(currBus.getBusDepartureTime())
+                    .busArrivalTime(currBus.getBusArrivalTime())
+                    .build();
+
+            outputList.add(ans);
+
+        }
+        if(outputList.isEmpty()){
+            throw new RuntimeException("No bus for this route");
+        }
+        return outputList;
+
     }
 
     public boolean busIsValid(String busNumber) {
@@ -69,4 +101,20 @@ public class BusService {
 
                 .build();
     }
+    public List<Bus> getAllBus() {
+        return busRepo.findAll();
+    }
+
+    public String removeBus(String busNumber, String email) {
+        Bus currBus = busRepo.findByBusNumber(busNumber);
+        String busOppEmail = currBus.getBusOppEmail();
+        if(busOppEmail.equals(email)){
+            busRepo.delete(currBus);
+            return "Bus Removed Successfully !!! ";
+        }
+        return "Only Valid bus Operator can remove Bus.!!!!";
+    }
+
+
+
 }

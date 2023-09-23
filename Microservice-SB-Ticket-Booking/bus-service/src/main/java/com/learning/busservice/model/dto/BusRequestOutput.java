@@ -16,7 +16,7 @@ public class BusRequestOutput {
     private String busCityFrom;
     private String busCityTo;
     private String busName;
-    private Integer busTotalSeats;
+
     private Integer busTicketPrice;
     private String busDepartureTime;
     private String busArrivalTime;
