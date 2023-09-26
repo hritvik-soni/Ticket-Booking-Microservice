@@ -5,6 +5,7 @@ import com.learning.ticketservice.model.dto.BusDetailsInput;
 
 import com.learning.ticketservice.model.dto.UserDetailsForTicketInput;
 import com.learning.ticketservice.service.TicketService;
+import com.learning.ticketservice.service.utility.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,23 +25,27 @@ public class TicketController {
 
     private final WebClient.Builder webClientBuilder;
 
-   private final
+    @Autowired
+    JwtUtil jwtUtil;
 
    @Autowired
     TicketService ticketService;
 
     @PostMapping("/new")
-    public String createTicket ( @RequestParam("busNumber") String busNumber , @RequestParam("email") String userEmail){
+    public String createTicket (@RequestHeader("token") String token ,@RequestParam("busNumber") String busNumber ){
 
-//        boolean busIsValid = restTemplate.getForObject("bus-service/api/bus/busIsValid?="+busNumber , boolean.class);
-//        if(!busIsValid ){
-//            return "Invalid Bus number please try again !!!";
-//        }
 
-//        BusDetailsInput busDetailsInput = restTemplate.getForObject("bus-service/api/bus/detail?="+ busNumber , BusDetailsInput.class);
+        webClientBuilder.build().get()
+                .uri("http://identity-service/auth/validate?token="+token)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+        String email = jwtUtil.extractEmail(token);
 
         BusDetailsInput busDetailsInput = webClientBuilder.build().get()
                 .uri("http://bus-service/api/bus/detail?busNumber="+ busNumber)
+                .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
+                .header("token",token)
                 .retrieve()
                 .bodyToMono(BusDetailsInput.class)
                 .block();
@@ -49,10 +54,11 @@ public class TicketController {
             return "Invalid Bus number please try again !!!";
         }
 
-//        UserDetailsForTicketInput  userDetailsForTicket =restTemplate.getForObject("user-service/api/user/info/ticket?="+ userEmail , UserDetailsForTicketInput.class);
 
         UserDetailsForTicketInput userDetailsForTicket = webClientBuilder.build().get()
-                .uri("http://user-service/api/user/info/ticket?email="+ userEmail)
+                .uri("http://user-service/api/user/info/ticket")
+                .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
+                .header("token",token)
                 .retrieve()
                 .bodyToMono(UserDetailsForTicketInput.class)
                 .block();
@@ -68,7 +74,12 @@ public class TicketController {
 
 
   @GetMapping("all")
-    public List<Ticket> getAllTickets (){
+    public List<Ticket> getAllTickets (@RequestHeader("token")String token){
+      webClientBuilder.build().get()
+              .uri("http://identity-service/auth/validate?token="+token)
+              .retrieve()
+              .bodyToMono(String.class)
+              .block();
         return ticketService.getAllTicket();
   }
 
