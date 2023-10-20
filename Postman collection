@@ -1,0 +1,549 @@
+{
+	"info": {
+		"_postman_id": "5431dd18-b8e6-4997-bf42-c9cb4dcf7d63",
+		"name": "micro-Ticket",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27811054",
+		"_collection_link": "https://www.postman.com/lunar-module-architect-29363035/workspace/springboot/collection/27811054-5431dd18-b8e6-4997-bf42-c9cb4dcf7d63?action=share&source=collection_link&creator=27811054"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZWxldGUxNkBidXMuY29tIiwiaWF0IjoxNjk1NzI0OTA4LCJleHAiOjE2OTU3MjY3MDh9.xGdDlhKJ5gIPMI3DtblmAGaCh6azVYYfufELOhn9lcQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n  \"busName\": \"bus23\",\r\n  \"busCityFrom\": \"bhopal\",\r\n  \"busCityTo\": \"indore\",\r\n  \"busNumber\": \"mp24blah\",\r\n  \"busTotalSeats\": 42,\r\n  \"busTicketPrice\": 350,\r\n  \"busDepartureTime\": \"17:30\",\r\n  \"busArrivalTime\": \"20:30\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/bus/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"bus",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/bus/all",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n\"email\":\"bus1@bus.com\",\r\n\"password\":\"pass\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/bus/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"bus",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/ticket/new?busNumber=mp09blah&email=user1@gmail.com",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZWxldGUxNkBidXMuY29tIiwiaWF0IjoxNjk1NzI1NjY3LCJleHAiOjE2OTU3Mjc0Njd9.LHYVexsnsLk3o3b-6v-ELekj5ExaM6P7WZYSzAtZv14",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/ticket/new?busNumber=mp23blah",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"ticket",
+						"new"
+					],
+					"query": [
+						{
+							"key": "busNumber",
+							"value": "mp23blah"
+						},
+						{
+							"key": "email",
+							"value": "user1@gmail.com",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/bus/search?cityFrom=indore&cityTo=bhopal",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/bus/search?cityFrom=indore&cityTo=bhopal",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"bus",
+						"search"
+					],
+					"query": [
+						{
+							"key": "cityFrom",
+							"value": "indore"
+						},
+						{
+							"key": "cityTo",
+							"value": "bhopal"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/bus/remove?busNumber=mp09blah&email=bus1@bus.com&password=pass",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "bus1@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "pass",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/bus/remove?busNumber=mp09blah&email=bus1@bus.com&password=pass",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"bus",
+						"remove"
+					],
+					"query": [
+						{
+							"key": "busNumber",
+							"value": "mp09blah"
+						},
+						{
+							"key": "email",
+							"value": "bus1@bus.com"
+						},
+						{
+							"key": "password",
+							"value": "pass"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/auth/validate?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZWxldGUyQGJ1cy5jb20iLCJpYXQiOjE2OTU1NTczODksImV4cCI6MTY5NTU1OTE4OX0.OsGgz_QnRGY_sTyjgZspgXsTB7_tUs5LdP2fx_UZAYI",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZWxldGUyQGJ1cy5jb20iLCJpYXQiOjE2OTU1NTczODksImV4cCI6MTY5NTU1OTE4OX0.OsGgz_QnRGY_sTyjgZspgXsTB7_tUs5LdP2fx_UZAYI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/auth/validate?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZWxldGUyQGJ1cy5jb20iLCJpYXQiOjE2OTU1NTczODksImV4cCI6MTY5NTU1OTE4OX0.OsGgz_QnRGY_sTyjgZspgXsTB7_tUs5LdP2fx_UZAYI",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"validate"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZWxldGUyQGJ1cy5jb20iLCJpYXQiOjE2OTU1NTczODksImV4cCI6MTY5NTU1OTE4OX0.OsGgz_QnRGY_sTyjgZspgXsTB7_tUs5LdP2fx_UZAYI"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/user/new",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"userName\": \"delete16\",\r\n  \"userEmail\": \"delete16@bus.com\",\r\n  \"userPassword\": \"pass\",\r\n  \"userMobileNumber\": \"7777777777\",\r\n  \"userCity\": \"blah\",\r\n  \"userAge\": 50,\r\n  \"gender\": \"MALE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/user/info/auth?email=bus1@bus.com",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "bus1@bus.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "pass",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/user/info/auth?email=bus1@bus.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"info",
+						"auth"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "bus1@bus.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/auth/token",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"delete16@bus.com\",\r\n    \"password\":\"pass\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/auth/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/user/remove",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZWxldGUxNkBidXMuY29tIiwiaWF0IjoxNjk1NzI1OTk1LCJleHAiOjE2OTU3Mjc3OTV9.8To8_5ryKNWheyL0gKLfVZMhWf04AVUxUmameTk9VAU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/user/remove",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"remove"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZWxldGUyQGJ1cy5jb20iLCJpYXQiOjE2OTU1NTczODksImV4cCI6MTY5NTU1OTE4OX0.OsGgz_QnRGY_sTyjgZspgXsTB7_tUs5LdP2fx_UZAYI",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/auth/validate?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZWxldGU2QGJ1cy5jb20iLCJpYXQiOjE2OTU2NTc3MjksImV4cCI6MTY5NTY1OTUyOX0.45CQ1G8h3umZMLE5AjgTtBdGuEnFAGJevh4QpaBkuCs",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/auth/validate?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZWxldGU2QGJ1cy5jb20iLCJpYXQiOjE2OTU2NTc3MjksImV4cCI6MTY5NTY1OTUyOX0.45CQ1G8h3umZMLE5AjgTtBdGuEnFAGJevh4QpaBkuCs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"validate"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZWxldGU2QGJ1cy5jb20iLCJpYXQiOjE2OTU2NTc3MjksImV4cCI6MTY5NTY1OTUyOX0.45CQ1G8h3umZMLE5AjgTtBdGuEnFAGJevh4QpaBkuCs"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/user/print",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZWxldGUxNkBidXMuY29tIiwiaWF0IjoxNjk1NzI0OTA4LCJleHAiOjE2OTU3MjY3MDh9.xGdDlhKJ5gIPMI3DtblmAGaCh6azVYYfufELOhn9lcQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/user/print",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"print"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/auth/removeUser",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "token",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZWxldGUxNkBidXMuY29tIiwiaWF0IjoxNjk1NzI0OTA4LCJleHAiOjE2OTU3MjY3MDh9.xGdDlhKJ5gIPMI3DtblmAGaCh6azVYYfufELOhn9lcQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/auth/removeUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"removeUser"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZWxldGUxNUBidXMuY29tIiwiaWF0IjoxNjk1NzIwNDM1LCJleHAiOjE2OTU3MjIyMzV9.xQFEQdEMmfTuPd4ZaLefKWQxa1XYTK16kpEAQCCzerA",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/user/info/bus",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZWxldGUxNkBidXMuY29tIiwiaWF0IjoxNjk1NzIzMzc1LCJleHAiOjE2OTU3MjUxNzV9.AKCW8JtQwj7q3F3bpTS0_phGkmpYxnH2D2ppu2ujCrI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/user/info/bus",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"info",
+						"bus"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/ticket/all",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZWxldGUxNkBidXMuY29tIiwiaWF0IjoxNjk1NzI1MTE2LCJleHAiOjE2OTU3MjY5MTZ9.NWVJKTd58jSogB07bRVWM5Xfc4fkimKqmFnIylYGrZs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/ticket/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"ticket",
+						"all"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
